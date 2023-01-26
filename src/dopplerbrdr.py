@@ -39,16 +39,33 @@ for i in range(len(energy)-1):
 """-----------------------------integration part-----------------------------------"""
 """there will be two loops.one to count the integral and one to count the data points"""
 
-def RangeFinder(E):
 
+def RangeFinder(E):
+	
 """this function will take E parameter and return the coressponding index value of the 
 linear intepolator's coefficient 
 				
 				Ak[i]----> the constant term
 				Bk[i]----> the relative term 
 first there will be a linear search in the energy[] list then return the index of that range in energy  """
- 
+	
+"""this function will take E parameter and return the coressponding index value of the 
+linear intepolator's coefficient 
+				
+				Ak[i]----> the constant term
+				Bk[i]----> the relative term 
+first there will be a linear search in the energy[] list then return the index of that range in energy  """
 
+	flag=0
+	for k in range(len(energy)-1):
+		if energy[k]<E and energy[k+1]>E:
+			flag=1
+			return k
+			break
+	if flag==0:
+		return k
+			 
+			 
 brdr_sigma=np.zeros(len(energy)-1)
 for i in range(len(y)-1):
     intergral=0
@@ -70,4 +87,4 @@ plt.plot(energy[:len(energy)-1],brdr_sigma,color='green')
 plt.xscale('log')
 plt.yscale('log')
 plt.legend(["Temperature--0k",'Temperature--500'])
-plt.show()    
+plt.show() 
