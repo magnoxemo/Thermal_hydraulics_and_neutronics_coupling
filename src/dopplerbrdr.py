@@ -37,24 +37,20 @@ for i in range(len(energy)-1):
 
     
 """-----------------------------integration part-----------------------------------"""
-"""there will be two loops.one to count the integral and one to count the data points"""
+"""there will be three loops.one to count the integral and one to count the data points another one to carry out the inner inetgral"""
 
 
-def RangeFinder(E):
-	
+
+
+
 """this function will take E parameter and return the coressponding index value of the 
 linear intepolator's coefficient 
 				
 				Ak[i]----> the constant term
 				Bk[i]----> the relative term 
 first there will be a linear search in the energy[] list then return the index of that range in energy  """
-	
-"""this function will take E parameter and return the coressponding index value of the 
-linear intepolator's coefficient 
-				
-				Ak[i]----> the constant term
-				Bk[i]----> the relative term 
-first there will be a linear search in the energy[] list then return the index of that range in energy  """
+
+def indexFinder(E):
 
 	flag=0
 	for k in range(len(energy)-1):
@@ -68,13 +64,23 @@ first there will be a linear search in the energy[] list then return the index o
 			 
 brdr_sigma=np.zeros(len(energy)-1)
 for i in range(len(y)-1):
+
     intergral=0
+    
     for j in range(len(energy)-1):
-        delEr=abs(Er[j+1]-Er[j])
+    
+        delEr=abs(Er[j+1]-Er[j])/1000
+        innerintgrl=0
         
-        #interpolation's problem fixed 
+        #inner inet
+        for j in range(1000):
         
-        intergral=intergral+np.sqrt(Er[j])*(Ak[j]+Bk[j]*Er[j])*delEr*(np.exp(-alpha*(energy[i]-Er[j])**2)-np.exp(-alpha*(energy[i]+Er[j])**2))
+        	step_Er=Er[j]+k*delEr
+        	m=indexFinder(step_Er)
+        	innerintgrl=innerintgrl+(Ak[m]+B[m]*step_Er)*delEr
+        
+        #interpolation's problem fixation--- done        
+        intergral=intergral+np.sqrt(Er[j])*innerintgrl*(np.exp(-alpha*(energy[i]-Er[j])**2)-np.exp(-alpha*(energy[i]+Er[j])**2))
         
     brdr_sigma[i]=0.5*np.sqrt(alpha/(np.pi*energy[i]))*intergral
     
@@ -87,4 +93,8 @@ plt.plot(energy[:len(energy)-1],brdr_sigma,color='green')
 plt.xscale('log')
 plt.yscale('log')
 plt.legend(["Temperature--0k",'Temperature--500'])
-plt.show() 
+plt.show()    
+
+
+"""this code is based on the sigma1 karnel algorithm 
+ref paper https://www.tandfonline.com/doi/abs/10.13182/NSE76-1 """
