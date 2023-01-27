@@ -1,3 +1,4 @@
+
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,8 +25,8 @@ Er=RelE(energy)         #relative energy calculation
 
 """------------------------------interpolation------------------------------------"""
 
-Ak=np.zeros(len(x)-1)       #constant term in linear interpolation 
-Bk=np.zeros(len(x)-1)       #term which is propotional to E
+Ak=np.zeros(len(energy)-1)       #constant term in linear interpolation 
+Bk=np.zeros(len(energy)-1)       #term which is propotional to E
 
 
 
@@ -77,7 +78,7 @@ for i in range(len(y)-1):
         
         	step_Er=Er[j]+k*delEr
         	m=indexFinder(step_Er)
-        	innerintgrl=innerintgrl+(Ak[m]+B[m]*step_Er)*delEr
+        	innerintgrl=innerintgrl+(Ak[m]+Bk[m]*step_Er)*delEr
         
         #interpolation's problem fixation--- done        
         intergral=intergral+np.sqrt(Er[j])*innerintgrl*(np.exp(-alpha*(energy[i]-Er[j])**2)-np.exp(-alpha*(energy[i]+Er[j])**2))
@@ -93,8 +94,6 @@ plt.plot(energy[:len(energy)-1],brdr_sigma,color='green')
 plt.xscale('log')
 plt.yscale('log')
 plt.legend(["Temperature--0k",'Temperature--500'])
-plt.show()    
-
-
+plt.show()  
 """this code is based on the sigma1 karnel algorithm 
 ref paper https://www.tandfonline.com/doi/abs/10.13182/NSE76-1 """
