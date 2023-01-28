@@ -1,11 +1,14 @@
-
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
+import time
+import sys
+
+start_time=time.time()
 
 
 #----------------------importing data file & constant defining ----------------------
-data=pd.read_csv('U-235 fission.csv')
+data=pd.read_csv(r"C:\Users\88018\Downloads\U-235 fission.csv")
 energy=np.array(data['incident energy'])
 cross_section=np.array(data['cross section'])
 
@@ -64,36 +67,38 @@ def indexFinder(E):
 			 
 			 
 brdr_sigma=np.zeros(len(energy)-1)
-for i in range(len(y)-1):
 
-    intergral=0
-    
+for i in range(len(y)-1):
+	
+    integral=0
+
     for j in range(len(energy)-1):
-    
+		
         delEr=abs(Er[j+1]-Er[j])/1000
         innerintgrl=0
-        
-        #inner inet
-        for j in range(1000):
-        
-        	step_Er=Er[j]+k*delEr
-        	m=indexFinder(step_Er)
-        	innerintgrl=innerintgrl+(Ak[m]+Bk[m]*step_Er)*delEr
-        
-        #interpolation's problem fixation--- done        
-        intergral=intergral+np.sqrt(Er[j])*innerintgrl*(np.exp(-alpha*(energy[i]-Er[j])**2)-np.exp(-alpha*(energy[i]+Er[j])**2))
-        
-    brdr_sigma[i]=0.5*np.sqrt(alpha/(np.pi*energy[i]))*intergral
-    
-    
-    
+	
+        for k in range(1000):
+		
+            step_Er = Er[j]+k*delEr
+            m=indexFinder(step_Er)
+            innerintgrl=innerintgrl+(Ak[m]+Bk[m]*step_Er)*delEr   
+
+        integral=integral+np.sqrt(Er[j])*innerintgrl*(np.exp(-alpha*(energy[i]-Er[j])**2)-np.exp(-alpha*(energy[i]+Er[j])**2))
+	
+    brdr_sigma[i]=0.5*np.sqrt(alpha/(np.pi*energy[i]))*integral
+
+end_time=time.time()
+elapsed_time =end_time-start_time
+print('Execution time:', elapsed_time, 'seconds')
+
 #---------------------------data visualization--------------------------
 plt.figure(figsize=(10,6))
 plt.plot(energy,cross_section,color='red')
 plt.plot(energy[:len(energy)-1],brdr_sigma,color='green')
 plt.xscale('log')
 plt.yscale('log')
-plt.legend(["Temperature--0k",'Temperature--500'])
-plt.show()  
+plt.legend(["Temperature--0 K",'Temperature--500 K'])
+plt.show() 
+
 """this code is based on the sigma1 karnel algorithm 
 ref paper https://www.tandfonline.com/doi/abs/10.13182/NSE76-1 """
