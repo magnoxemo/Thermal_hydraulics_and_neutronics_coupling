@@ -85,7 +85,7 @@ for i in range(len(y)-1):
 
         integral=integral+np.sqrt(Er[j])*innerintgrl*(np.exp(-alpha*(energy[i]-Er[j])**2)-np.exp(-alpha*(energy[i]+Er[j])**2))
 	
-    brdr_sigma[i]=0.5*np.sqrt(alpha/(np.pi*energy[i]))*integral
+    brdr_sigma[i]=0.5*np.sqrt(alpha/(np.pi*energy[i]**2))*integral
 
 end_time=time.time()
 elapsed_time =end_time-start_time
