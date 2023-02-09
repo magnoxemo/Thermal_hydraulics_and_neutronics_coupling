@@ -1,38 +1,29 @@
-import matplotlib.pyplot as plt
-figure, axes = plt.subplots()
-plt.xlim(-10,10)
-plt.ylim(-10,10)
+import numpy as np 
+import matplotlib.pyplot as plt 
 
+def CoreVisualize(center,radius):
 
-axes.add_artist( plt.Circle(( 0 , 0 ), 10,color='blue',fill=False ))
-axes.add_artist( plt.Circle(( 0 , 0 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( 4 , 0 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( 8 , 0 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -4 , 0 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -8 , 0 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  4, 4), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( 4 , 8 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( 8 , 4 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  -4, 4), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -4 , 8 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -8 , 4 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -8 , -4 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  -4, 4), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -4 , -8 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -8 , -4 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -8 , -4 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  0, 4), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( 0 , 8 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  0, -4), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( 0 , -8 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -8 , 4 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( -8 , -4 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  4, -4), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle(( 4 , -8 ), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  -4, -4), 1,color='red',fill=True ))
-axes.add_artist( plt.Circle((  8, -4), 1,color='red',fill=True ))
+    figure, axes = plt.subplots()
+    axes.set_facecolor('xkcd:green')
+    axes.set_facecolor((.0, 0, .9))
+    plt.xlim(-10,10)
+    plt.ylim(-10,10)
+  
+    center=center
+    radius=radius
 
+    for i in center:
+        axes.add_artist( plt.Circle(i,radius,color='red',fill=True ))
+        axes.add_artist( plt.Circle(i,radius+0.1,color='green',fill=False ))
+        axes.add_artist( plt.Circle(i,radius+0.2,color='black',fill=False ))
 
-plt.title( 'CORE_arrangement' )
-plt.figure(figsize=(15,15))
-plt.show()
+    plt.title( 'CORE_arrangement' )
+    plt.figure(figsize=(12,8))
+    plt.show()
+
+center=[( 0 , 0 ),( 4 , 0 ),( 8 , 0 ),( -4 , 0 ),( -8 , 0 ),( 4, 4),( 4 , 8 ),( 8 , 4 ),( -4, 4),
+( -4 , 8 ),( -8 , 4 ),( -8 , -4 ),( -4, 4),( -4 , -8 ),( -8 , -4 ),( 0, 4),( 0 , 8 ),( 0, -4),( 0 , -8 ),
+( 4, -4),( 4 , -8 ),( -4, -4),( 8, -4)
+]
+
+CoreVisualize(center,radius=1)
