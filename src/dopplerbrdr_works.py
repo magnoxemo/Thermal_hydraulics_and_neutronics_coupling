@@ -6,17 +6,18 @@ import time
 
 
 #----------------------importing data file & constant defining ----------------------
-
-data=pd.read_csv('/home/shochcho/Downloads/Cm-246 absorption.csv')
+start_time=time.time()
+data=pd.read_csv('/home/shochcho/Downloads/Doppler code/U-235 fission.csv')
 energy1=np.array(data['incident energy'])
-cross_section=np.array(data['cross_section'])
+cross_section=np.array(data['cross section'])
 
 m=1                       #projectile mass
-M=246                     #target mass
+M=235                     #target mass
 
 k=8.617*10**-5            #boltzman const
+Temp1=0
 Temp2=50000               #target temp
-alpha=(M/m)/(k*Temp2)   
+alpha=(M/m)/(k*(Temp2-Temp1))   
 
 """------------------------------interpolation------------------------------------"""
 
@@ -38,7 +39,6 @@ def ResonaceSplit(energy,cross_section):
     
     ResonaceEnergy=energy[i:j]
     Resonacecross=cross_section[i:j]
-    print(i,j)
 
     return ResonaceEnergy,Resonacecross
 energy,ResonaceSigma=ResonaceSplit(energy1,cross_section)
@@ -63,16 +63,22 @@ sigma=np.zeros(len(cross_section))
 for i in tqdm(range(len(energy))):
     sigma[i]=1/energy[i]*0.5*np.sqrt(alpha/(np.pi))*np.trapz(CalFx(energy[i]),x=Er,dx=dx)
    
+end_time=time.time()
+dev=abs((np.trapz(ResonaceSigma)-(np.trapz(sigma)))/np.trapz(ResonaceSigma))
+
+print()
+print()
+print()
+print("Elapsed time: ",end_time-start_time ," Sec")
+print()
+print()
+print("-------------------------  deviation: ",dev ," % -----------------------------")
 
 #---------------------------data visualization--------------------------
 plt.figure(figsize=(10,6))
-plt.scatter(energy,ResonaceSigma,color='red')
+plt.plot(energy,ResonaceSigma,color='red')
 plt.plot(energy,sigma[:len(energy)],color='green')
 plt.xscale('log')
 plt.yscale('log')
-plt.legend(["--0","--50000 K"])
+plt.legend([str(Temp1)+" K",str(Temp2)+" K"])
 plt.show()
-
-
-"""this code is based on the sigma1 karnel algorithm 
-ref paper https://www.tandfonline.com/doi/abs/10.13182/NSE76-1 """
