@@ -7,13 +7,19 @@ from scipy.intergrate import trapz
 
 class material:
 	
-	def __init__(self,Atomic_mass,density,enrichment,temp,ReactionType):
+	def __init__(self,Atomic_mass,density,enrichment=None,temp=None,ReactionType):
 	
 		M=Atomic_mass										#atomic mass of the element 
 		density=density									#atomic density
-		NA=6.023*10**23									#avogrado constant 
-		enrichment=enrichment									#enrichment 
-		temp=temp										#temp needs to perform doppler boardening 
+		NA=6.023*10**23
+		if enrichment==None									#avogrado constant 
+			enrichment=1	
+		else
+			enrichment=enrichment								#enrichment 
+		if temp==None
+			temp=0
+		else  
+			temp=temp							#temp needs to perform doppler boardening 
 		ReactionType=ReactionType								#types of the reaction will happen
 		energy,sigma={}							                #cross section dictionary  
 		
@@ -112,8 +118,8 @@ class material:
 		 
 		for i in range(Type_Reaction):
 
-			engergy[str(self.ReactionType[i])]=atom_density*enerichment*engergy[str(self.ReactionType[i])]
-			sigma[str(self.ReactionType[i])]=atom_density*enerichment*sigma[str(self.ReactionType[i])]
+			engergy[str(self.ReactionType[i])]=atom_density*engergy[str(self.ReactionType[i])]
+			sigma[str(self.ReactionType[i])]=atom_density*sigma[str(self.ReactionType[i])]
 				
 		return energy,sigma
 	
@@ -123,5 +129,8 @@ class material:
 		
 		for i in range(Items):
 			for k in range()
-			material[i]
+				sigma[str(ReactionType[k])]=sigma[str(ReactionType[k])]+material[i].enrichment*sigma[str(ReactionType[k])]
+		return sigma
 			
+			
+						
