@@ -88,10 +88,10 @@ class material:
 					HighRE=10**4
 					for i in (range(len(energy))):
 				    		if energy[i]>LowRE:
-						break
+							break
 					for j in range(i,len(energy)):
-				    	if energy[j]>HighRE:
-						break
+				    		if energy[j]>HighRE:
+							break
 				
 					ResonaceEnergy=energy1[i:j]
 					Resonacecross=cross_section[i:j]
@@ -124,7 +124,7 @@ class material:
 				
 				cross_section[st:ed-1]=sigma[:len(energy)-1]
 				
-				return energy1,cross_section
+				return energy1[],cross_section
 		
 		
 	def MacroScopicCross(self):
