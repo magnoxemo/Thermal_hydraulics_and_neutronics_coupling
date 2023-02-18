@@ -50,17 +50,20 @@ class material:
 			xsection.append(2)
 			
 		try:	
-			for i in range(Type_Reaction):
+			for k in range(Type_Reaction):
 
-				path[i]=str(cross section data/)+str(self.M)+str(self.ReactionType[i])+str(.csv)
-				xscetion[i]=pd.readcsv(path)
-				engergy[str(self.ReactionType[i])]=np.array(xsection[i]["Incident energy"])
-				sigma[str(self.ReactionType[i])]=np.array(xsection[i]["Cross section"])
+				path[k]=str(cross section data/)+str(self.M)+str(self.ReactionType[i])+str(.csv)
+				xscetion[k]=pd.readcsv(path)
+				engergy[str(self.ReactionType[k])]=np.array(xsection[k]["Incident energy"])
+				sigma[str(self.ReactionType[k])]=np.array(xsection[k]["Cross section"])
 				
-			return energy,sigma
 		except:
-			raise data_not_found_in_the_bank_Error(str(self.ReactionType[i])," not found ")
+			raise 
+		
+		return energy,sigma
+		
 	def Dopplerdrbr(self):
+	
 		for i in ReactionType:
 		
 			if self.temp!=0:
